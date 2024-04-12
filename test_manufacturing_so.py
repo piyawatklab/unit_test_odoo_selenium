@@ -30,20 +30,23 @@ json_data = {
 }
 
 def run():
-    name = 'open_odoo'
+    
     try:
+        name = 'open_odoo'
+
         driver = Driver(uc=True)
         # driver = Driver(uc=True,headless=True)
         driver.get(url)
         time.sleep(3)
         print_ok(name)
 
-    except Exception as e:
-        print_error(name) 
-        print_error(e)
+    # except Exception as e:
+    #     print_error(name) 
+    #     print_error(e)
 
-    name = 'login_odoo'
-    try:
+        name = 'login_odoo'
+
+    # try:
         driver.find_element(By.XPATH, "//input[@name='login']").send_keys(USERNAME_LOGIN)
         driver.find_element(By.XPATH, "//input[@name='password']").send_keys(PASSWORD_LOGIN)
         driver.find_element(By.XPATH, "//button[@type='submit']").click()
@@ -55,12 +58,13 @@ def run():
             e = driver.find_element(By.XPATH, "//div[@class='o_notification_manager']").text
             print_error(name,e)
 
-    except Exception as e:
-        print_error(name) 
-        print_error(e)
+    # except Exception as e:
+    #     print_error(name) 
+    #     print_error(e)
     
-    name = 'create_sales_order'
-    try:
+        name = 'create_sales_order'
+
+    # try:
         driver.find_element(By.XPATH, "//button[@class='btn btn-primary o_list_button_add']").click()
         time.sleep(3)
         input_partner = driver.find_element(By.XPATH, "//input[@id='partner_id']")
@@ -117,12 +121,13 @@ def run():
 
         print_ok(name)
     
-    except Exception as e:
-        print_error(name)
-        print_error(e)
+    # except Exception as e:
+    #     print_error(name)
+    #     print_error(e)
     
-    name = 'save_sales_order'
-    try:
+        name = 'save_sales_order'
+
+    # try:
 
         driver.find_element(By.XPATH, "//button[@data-tooltip='Save manually']").click()
         time.sleep(3)
@@ -130,14 +135,14 @@ def run():
         check_text = driver.find_element(By.XPATH, "//span[@class='text-truncate']").text
         if check_text != 'New':
             print_ok(name)
-            print('SO : ' + check_text)
+            print('- SO : ' + check_text)
         else:
             e = driver.find_element(By.XPATH, "//div[@class='o_notification_manager']").text
             print_error(name,e)
     
     except Exception as e:
         print_error(name)
-        print_error(e)
+        print(e)
 
 def print_ok(name):
     print(Fore.GREEN + name + " Pass")

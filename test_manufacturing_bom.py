@@ -28,20 +28,23 @@ json_data = {
 }
 
 def run():
-    name = 'open_odoo'
+
     try:
+        name = 'open_odoo'
+        
         driver = Driver(uc=True)
         # driver = Driver(uc=True,headless=True)
         driver.get(url)
         time.sleep(3)
         print_ok(name)
 
-    except Exception as e:
-        print_error(name) 
-        print_error(e)
+    # except Exception as e:
+    #     print_error(name) 
+    #     print_error(e)
 
-    name = 'login_odoo'
-    try:
+        name = 'login_odoo'
+
+    # try:
         driver.find_element(By.XPATH, "//input[@name='login']").send_keys(USERNAME_LOGIN)
         driver.find_element(By.XPATH, "//input[@name='password']").send_keys(PASSWORD_LOGIN)
         driver.find_element(By.XPATH, "//button[@type='submit']").click()
@@ -53,12 +56,13 @@ def run():
             e = driver.find_element(By.XPATH, "//div[@class='o_notification_manager']").text
             print_error(name,e)
 
-    except Exception as e:
-        print_error(name) 
-        print_error(e)
+    # except Exception as e:
+    #     print_error(name) 
+    #     print_error(e)
     
-    name = 'create_bom'
-    try:
+        name = 'create_bom'
+
+    # try:
         driver.find_element(By.XPATH, ".//button[@class='btn btn-primary o_list_button_add']").click()
         time.sleep(3)
         
@@ -78,8 +82,6 @@ def run():
         time.sleep(1)
         add_line.click()
         time.sleep(1)
-
-
 
         product_list = json_data["product"]
 
@@ -102,22 +104,15 @@ def run():
             td_add.send_keys(Keys.ENTER)
             time.sleep(3)
 
-            # td_add = tr_add.find_element(By.XPATH, ".//td[@name='price_unit']")
-            # td_add.click()
-            # time.sleep(3)
-            # td_add.find_element(By.XPATH, ".//input[@type='text']").send_keys(json_data["product"][0]["price_unit"])
-            # time.sleep(1)
-            # td_add.send_keys(Keys.ENTER)
-            # time.sleep(3)
-
         print_ok(name)
     
-    except Exception as e:
-        print_error(name)
-        print_error(e)
+    # except Exception as e:
+    #     print_error(name)
+    #     print_error(e)
     
-    name = 'save_bom'
-    try:
+        name = 'save_bom'
+
+    # try:
 
         driver.find_element(By.XPATH, "//button[@data-tooltip='Save manually']").click()
         time.sleep(3)
@@ -131,13 +126,13 @@ def run():
             print_error(name,e)
         time.sleep(3)
     
-    except Exception as e:
-        print_error(name)
-        print_error(e)
+    # except Exception as e:
+    #     print_error(name)
+    #     print_error(e)
     
-    name = 'create_mo'
+        name = 'create_mo'
 
-    try:
+    # try:
         driver.get('https://mp-dev.almacom.co.th/web#action=395&model=mrp.production&view_type=list&cids=2&menu_id=229')
         time.sleep(3)
         
@@ -153,12 +148,13 @@ def run():
         
         print_ok(name)
     
-    except Exception as e:
-        print_error(name)
-        print_error(e)
+    # except Exception as e:
+    #     print_error(name)
+    #     print_error(e)
     
-    name = 'save_mo'
-    try:
+        name = 'save_mo'
+
+    # try:
 
         driver.find_element(By.XPATH, "//button[@data-tooltip='Save manually']").click()
         time.sleep(3)
@@ -172,12 +168,13 @@ def run():
             print_error(name,e)
         time.sleep(3)
     
-    except Exception as e:
-        print_error(name)
-        print_error(e)
+    # except Exception as e:
+    #     print_error(name)
+    #     print_error(e)
     
-    name = 'confirm_mo'
-    try:
+        name = 'confirm_mo'
+
+    # try:
 
         driver.find_element(By.XPATH, "//button[@name='action_confirm']").click()
         time.sleep(3)
@@ -192,7 +189,7 @@ def run():
     
     except Exception as e:
         print_error(name)
-        print_error(e)
+        print(e)
 
 def print_ok(name):
     print(Fore.GREEN + name + " Pass")
