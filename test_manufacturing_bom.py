@@ -16,6 +16,7 @@ url = 'https://mp-dev.almacom.co.th/web#action=389&model=mrp.bom&view_type=list&
 
 json_data = {
     "product_tmpl_id" : 'A00001',
+    "product_qty": 2,
     "product":[{
         "product_id": 'TTT001',
         "product_qty": 3,
@@ -60,9 +61,16 @@ def run():
     try:
         driver.find_element(By.XPATH, ".//button[@class='btn btn-primary o_list_button_add']").click()
         time.sleep(3)
+        
         input_partner = driver.find_element(By.XPATH, "//input[@id='product_tmpl_id']")
         input_partner.send_keys(json_data["product_tmpl_id"])
         input_partner.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        input_product_qty = driver.find_element(By.XPATH, "//input[@id='product_qty']")
+        input_product_qty.clear()
+        input_product_qty.send_keys(json_data["product_qty"])
+        input_product_qty.send_keys(Keys.ENTER)
         time.sleep(1)
 
         add_line = driver.find_element(By.XPATH, "//a[contains(text(), 'Add a line')]")
@@ -70,6 +78,8 @@ def run():
         time.sleep(1)
         add_line.click()
         time.sleep(1)
+
+
 
         product_list = json_data["product"]
 
@@ -115,7 +125,7 @@ def run():
         check_text = driver.find_element(By.XPATH, "//span[@class='text-truncate']").text
         if check_text != 'New':
             print_ok(name)
-            print('BoM : ' + check_text)
+            print('- BoM : ' + check_text)
         else:
             e = driver.find_element(By.XPATH, "//div[@class='o_notification_manager']").text
             print_error(name,e)
@@ -125,7 +135,7 @@ def run():
         print_error(name)
         print_error(e)
     
-    name = 'create_manufacturing_orders'
+    name = 'create_mo'
 
     try:
         driver.get('https://mp-dev.almacom.co.th/web#action=395&model=mrp.production&view_type=list&cids=2&menu_id=229')
@@ -156,9 +166,27 @@ def run():
         check_text = driver.find_element(By.XPATH, "//span[@class='text-truncate']").text
         if check_text != 'New':
             print_ok(name)
-            print('MO : ' + check_text)
+            print('- MO : ' + check_text)
         else:
             e = driver.find_element(By.XPATH, "//div[@class='o_notification_manager']").text
+            print_error(name,e)
+        time.sleep(3)
+    
+    except Exception as e:
+        print_error(name)
+        print_error(e)
+    
+    name = 'confirm_mo'
+    try:
+
+        driver.find_element(By.XPATH, "//button[@name='action_confirm']").click()
+        time.sleep(3)
+
+        check_text = driver.find_element(By.XPATH, "//button[@aria-label='Current state']").text
+        if check_text == 'CONFIRMED':
+            print_ok(name)
+        else:
+            e = driver.find_element(By.XPATH, "//button[@aria-label='Current state']").text
             print_error(name,e)
         time.sleep(3)
     
