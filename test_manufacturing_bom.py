@@ -58,7 +58,7 @@ def run():
     
     name = 'create_bom'
     try:
-        driver.find_element(By.XPATH, "//button[@class='btn btn-primary o_list_button_add']").click()
+        driver.find_element(By.XPATH, ".//button[@class='btn btn-primary o_list_button_add']").click()
         time.sleep(3)
         input_partner = driver.find_element(By.XPATH, "//input[@id='product_tmpl_id']")
         input_partner.send_keys(json_data["product_tmpl_id"])
@@ -119,6 +119,48 @@ def run():
         else:
             e = driver.find_element(By.XPATH, "//div[@class='o_notification_manager']").text
             print_error(name,e)
+        time.sleep(3)
+    
+    except Exception as e:
+        print_error(name)
+        print_error(e)
+    
+    name = 'create_manufacturing_orders'
+
+    try:
+        driver.get('https://mp-dev.almacom.co.th/web#action=395&model=mrp.production&view_type=list&cids=2&menu_id=229')
+        time.sleep(3)
+        
+        driver.find_element(By.XPATH, ".//button[@class='btn btn-primary o_list_button_add']").click()
+        time.sleep(3)
+
+        bom_id = check_text.split(":")
+
+        input_bom = driver.find_element(By.XPATH, "//input[@id='bom_id']")
+        input_bom.send_keys(bom_id[0])
+        input_bom.send_keys(Keys.ENTER)
+        time.sleep(3)
+        
+        print_ok(name)
+    
+    except Exception as e:
+        print_error(name)
+        print_error(e)
+    
+    name = 'save_mo'
+    try:
+
+        driver.find_element(By.XPATH, "//button[@data-tooltip='Save manually']").click()
+        time.sleep(3)
+
+        check_text = driver.find_element(By.XPATH, "//span[@class='text-truncate']").text
+        if check_text != 'New':
+            print_ok(name)
+            print('MO : ' + check_text)
+        else:
+            e = driver.find_element(By.XPATH, "//div[@class='o_notification_manager']").text
+            print_error(name,e)
+        time.sleep(3)
     
     except Exception as e:
         print_error(name)
